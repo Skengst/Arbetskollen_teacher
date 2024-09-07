@@ -20,9 +20,9 @@ This project aims to implement a modern data stack to support the visualization 
 
 ## Installation
 1. Clone this repository:
-   ```bash
-   git clone https://github.com/Skengst/Arbetskollen_teacher.git
-   ```
+```bash
+git clone https://github.com/Skengst/Arbetskollen_teacher.git
+```
    
 2. Install the necessary packages:
 ```bash
@@ -38,6 +38,7 @@ python data_pipeline/load_data.py
 ```
 ```bash
 Run the dbt models:
+```
 ```bash
 dbt run
 ```
