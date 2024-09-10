@@ -1,110 +1,67 @@
-Project jobbannonser_schema {
-  database_type: "Snowflake"
+// Put this in DBDiagram.io for visual aspect
+
+// snowflake uses dynamical storage, so in terms of performance
+// and memory, snowflake only stores the actual length of the data
+// however if choosing varchar(11) for example, we add an extra layer
+// of validation that the length of the data stored is 11 or less characters
+
+Table fct_job_ads {
+  job_id INTEGER [primary key]
+  job_details_key INTEGER [ref: >dim_job_details.job_details_key]
+  employer_id INTEGER [ref: >dim_employer.employer_id]
+  auxilliary_attributes_id INTEGER [ref: >dim_auxilliary_attributes.auxilliary_attributes_id]
+  relevance FLOAT [not null]
+  number_of_vacancies INTEGER [not null]
+  publication_date DATETIME [not null]
+  last_publication_date DATETIME [not null]
+  //Closing of job application
 }
 
-Table Jobbannonser_Faktatabell {
-  ID varchar [pk]
-  EXTERNAL_ID varchar
-  HEADLINE varchar
-  PUBLICATION_DATE timestamp_tz [ref: > Tid_Dimension.PUBLICATION_DATE]
-  LAST_PUBLICATION_DATE timestamp_tz [ref: > Tid_Dimension.LAST_PUBLICATION_DATE]
-  APPLICATION_DEADLINE timestamp_tz [ref: > Tid_Dimension.APPLICATION_DEADLINE]
-  NUMBER_OF_VACANCIES number
-  EXPERIENCE_REQUIRED boolean
-  ACCESS_TO_OWN_CAR boolean
-  DRIVING_LICENSE_REQUIRED boolean
-  SALARY_DESCRIPTION varchar [ref: > Lön_Dimension.SALARY_DESCRIPTION]
-  RELEVANCE float
-  REMOVED boolean
-  EMPLOYER__NAME varchar [ref: > Arbetsgivare_Dimension.EMPLOYER__NAME]
-  EMPLOYER__ORGANIZATION_NUMBER varchar [ref: > Arbetsgivare_Dimension.EMPLOYER__ORGANIZATION_NUMBER]
-  EMPLOYMENT_TYPE__CONCEPT_ID varchar [ref: > Arbetstyp_Dimension.EMPLOYMENT_TYPE__CONCEPT_ID]
-  OCCUPATION__CONCEPT_ID varchar [ref: > Yrke_Dimension.OCCUPATION__CONCEPT_ID]
-  APPLICATION_DETAILS__EMAIL varchar [ref: > Ansökan_Dimension.APPLICATION_DETAILS__EMAIL]
-  DURATION__CONCEPT_ID varchar [ref: > Varaktighet_Dimension.DURATION__CONCEPT_ID]
-  DESCRIPTION__TEXT varchar [ref: > Jobbbeskrivning_Dimension.DESCRIPTION__TEXT]
-
-  Note: "Faktatabell för jobbannonser"
+Table dim_job_details {
+  job_details_key INTEGER [primary key]
+  occupation__label STRING [not null]
+  headline STRING [not null]
+  description_text STRING [not null]
+  description_text_formatted STRING [not null]
+  employment_type__label STRING [not null]
+  duration__label STRING [not null]
+  //How long you will work at that place
+  working_hours_type__label STRING [not null]
+  //Hours worked per day
+  salary_type__label STRING [not null]
+  salary_decscription STRING
+  //Might remove
+  //Meaning varies from job to job, Usually about how the salary is set, like hourly, monthly or by contract
+  scope_of_work__min NUMBER(3,0) [not null] 
+  scope_of_work__max NUMBER(3,0) [not null]
+  //Scope of work means how much might change during your work
+  //Low min means you most likely will be given more work later
+  //High min means all your work should be outlined you start working
 }
 
-Table Tid_Dimension {
-  TID_ID int [pk]
-  PUBLICATION_DATE timestamp_tz
-  LAST_PUBLICATION_DATE timestamp_tz
-  APPLICATION_DEADLINE timestamp_tz
-
-  Note: "Dimension för tid"
+Table dim_employer {
+  employer_id INTEGER [primary key]
+  employer__name STRING [not null]
+  employer__workplace STRING [not null]
+  employer__organization_number STRING [not null] 
+  // we know organization number is xxxxxx-xxxx
+  employer__url STRING
+  //Very few with a website
+  workplace_address__street_address STRING
+  //Majority of data does not have a street address attached
+  workplace_address__municipality STRING [not null]
+  workplace_address__region STRING [not null]
+  workplace_address__postcode STRING
+  //Majority of data does not have a postcode attached
+  workplace_address__city STRING
+  //Majority of data does not have a city attached
+  workplace_address__country STRING [not null]
 }
 
-Table Arbetsgivare_Dimension {
-  ARBETSGIVARE_ID int [pk]
-  EMPLOYER__NAME varchar
-  EMPLOYER__ORGANIZATION_NUMBER varchar
-  EMPLOYER__URL varchar
-  EMPLOYER__WORKPLACE varchar
-  LOGO_URL varchar
-
-  Note: "Dimension för arbetsgivare"
-}
-
-Table Arbetstyp_Dimension {
-  ARBETSTYP_ID int [pk]
-  EMPLOYMENT_TYPE__CONCEPT_ID varchar
-  EMPLOYMENT_TYPE__LABEL varchar
-  EMPLOYMENT_TYPE__LEGACY_AMS_TAXONOMY_ID varchar
-
-  Note: "Dimension för arbetstyp"
-}
-
-Table Yrke_Dimension {
-  YRKE_ID int [pk]
-  OCCUPATION__CONCEPT_ID varchar
-  OCCUPATION__LABEL varchar
-  OCCUPATION__LEGACY_AMS_TAXONOMY_ID varchar
-  OCCUPATION_GROUP__CONCEPT_ID varchar
-  OCCUPATION_GROUP__LABEL varchar
-  OCCUPATION_GROUP__LEGACY_AMS_TAXONOMY_ID varchar
-  OCCUPATION_FIELD__CONCEPT_ID varchar
-  OCCUPATION_FIELD__LABEL varchar
-  OCCUPATION_FIELD__LEGACY_AMS_TAXONOMY_ID varchar
-
-  Note: "Dimension för yrke"
-}
-
-Table Ansökan_Dimension {
-  ANSÖKAN_ID int [pk]
-  APPLICATION_DETAILS__EMAIL varchar
-  APPLICATION_DETAILS__INFORMATION varchar
-  APPLICATION_DETAILS__OTHER varchar
-  APPLICATION_DETAILS__REFERENCE varchar
-  APPLICATION_DETAILS__URL varchar
-  APPLICATION_DETAILS__VIA_AF boolean
-
-  Note: "Dimension för ansökan"
-}
-
-Table Lön_Dimension {
-  LÖN_ID int [pk]
-  SALARY_TYPE__CONCEPT_ID varchar
-  SALARY_DESCRIPTION varchar
-
-  Note: "Dimension för lön"
-}
-
-Table Varaktighet_Dimension {
-  VARAKTIGHET_ID int [pk]
-  DURATION__CONCEPT_ID varchar
-  DURATION__LABEL varchar
-  DURATION__LEGACY_AMS_TAXONOMY_ID varchar
-
-  Note: "Dimension för varaktighet"
-}
-
-Table Jobbbeskrivning_Dimension {
-  BESKRIVNING_ID int [pk]
-  DESCRIPTION__TEXT varchar
-  DESCRIPTION__TEXT_FORMATTED varchar
-  DESCRIPTION__CONDITIONS varchar
-
-  Note: "Dimension för jobbbeskrivning"
+// junk dimension for cols with flags 
+Table dim_auxilliary_attributes {
+  auxilliary_attributes_id INTEGER [primary key]
+  experience_required BOOLEAN [not null]
+  driver_license_required BOOLEAN [not null]
+  access_to_own_car BOOLEAN [not null]
 }
