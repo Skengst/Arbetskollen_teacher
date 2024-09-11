@@ -1,0 +1,6 @@
+sources:
+    - name: job_ads_db
+      schema: staging
+      tables: 
+        - name: stg_teacher_ads
+          identifier: jobsearch_teacher_data
