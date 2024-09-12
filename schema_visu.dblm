@@ -62,6 +62,6 @@ Table dim_employer {
 Table dim_auxilliary_attributes {
   auxilliary_attributes_id INTEGER [primary key]
   experience_required BOOLEAN [not null]
-  driver_license_required BOOLEAN [not null]
+  driving_license_required BOOLEAN [not null]
   access_to_own_car BOOLEAN [not null]
 }
