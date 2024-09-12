@@ -4,4 +4,4 @@ WITH src_employer AS (SELECT * FROM {{ ref('src_employer') }})
 
 SELECT
     *
-FROM src_employer;
+FROM src_employer
