@@ -21,4 +21,4 @@ SELECT
     workplace_address__postcode AS postcode,
     workplace_address__city AS city,
     workplace_address__country AS country
-FROM stg_job_ads;
+FROM stg_job_ads
