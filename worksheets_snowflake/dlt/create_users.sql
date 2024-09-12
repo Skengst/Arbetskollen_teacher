@@ -14,7 +14,8 @@ DEFAULT_WAREHOUSE = job_ads_wh;
 
 CREATE USER Jacob
 PASSWORD = 'Password3#'
-LOGIN_NAME = 'Jacob'MUST_CHANGE_PASSWORD = true
+LOGIN_NAME = 'Jacob'
+MUST_CHANGE_PASSWORD = true
 DEFAULT_WAREHOUSE = job_ads_wh;
 
 SHOW USERS;
@@ -23,5 +24,6 @@ drop user dbt_user;
 
 CREATE USER Dimitris_2
 PASSWORD = 'Password4#'
-LOGIN_NAME = 'Dimitris_2'MUST_CHANGE_PASSWORD = true
+LOGIN_NAME = 'Dimitris_2'
+MUST_CHANGE_PASSWORD = true
 DEFAULT_WAREHOUSE = job_ads_wh;
