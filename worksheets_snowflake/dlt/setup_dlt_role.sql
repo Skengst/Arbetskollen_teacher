@@ -7,7 +7,7 @@ CREATE ROLE IF NOT EXISTS teacher_dlt_role;
 GRANT ROLE teacher_dlt_role TO USER Daniel;
 GRANT ROLE teacher_dlt_role TO USER Samuel;
 GRANT ROLE teacher_dlt_role TO USER Jacob;
-GRANT ROLE teacher_dlt_role TO USER Dimitris_2;
+GRANT ROLE teacher_dlt_role TO USER Dimitris;
 
 
 GRANT USAGE ON WAREHOUSE job_ads_wh TO ROLE teacher_dlt_role;
@@ -42,7 +42,8 @@ GRANT SELECT ON FUTURE TABLES IN SCHEMA job_ads_db.staging TO ROLE teacher_dlt_r
 
 
 show roles;
-SHOW GRANTS TO ROLE my_role;
+SHOW GRANTS TO ROLE teacher_dlt_role;
 
 SHOW GRANTS TO USER teacher_dlt_role;
-drop role dbt_role;
+
+
