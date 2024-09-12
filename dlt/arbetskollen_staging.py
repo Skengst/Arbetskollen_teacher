@@ -1,3 +1,4 @@
+#%%
 import dlt
 import requests
 import json
@@ -42,3 +43,6 @@ if __name__ == "__main__":
     table_name = "jobsearch_teacher_data"
 
     run_pipeline(query, table_name)
+
+
+# %%
