@@ -14,8 +14,9 @@ SELECT
     {# TODO: key to junk dimension #}
     relevance,
     coalesce(vacancies, 1) as vacancies,
-    publication_date,
-    last_publication_date
+    {{ format_date('publication_date') }} as publication_date,
+    {{ format_date('last_publication_date') }} as last_publication_date,
+    {{ format_date('application_deadline') }} as application_deadline
 FROM 
     ja 
 LEFT JOIN 

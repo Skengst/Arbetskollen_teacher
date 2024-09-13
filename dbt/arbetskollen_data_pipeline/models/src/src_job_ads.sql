@@ -14,5 +14,6 @@ SELECT
     relevance,
     number_of_vacancies AS vacancies,
     publication_date,
-    last_publication_date
+    last_publication_date,
+    application_deadline
 FROM stg_job_ads
