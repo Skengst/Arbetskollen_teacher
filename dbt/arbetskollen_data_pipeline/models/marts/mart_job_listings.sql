@@ -11,16 +11,20 @@ SELECT
     jd.occupation,
     jd.headline,
     jd.salary_description,
+    jd.salary_type,
     jd.duration,
+    jd.description,
+    jd.description_formatted,
+    jd.scope_of_work_min,
+    jd.scope_of_work_max,
     e.employer_name,
-    e.employer_workplace,
-    f.relevance
+    e.workplace,
+    e.workplace_city,
+    f.relevance,
+    f.application_deadline,
+    f.vacancies
 FROM fct_job_ads AS f
 LEFT JOIN job_details AS jd
     ON f.job_details_key = jd.job_details_id
 LEFT JOIN employer AS e
     ON f.employer_key = e.employer_id
-
-
-
-   
