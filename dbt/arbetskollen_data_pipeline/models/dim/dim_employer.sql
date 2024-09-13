@@ -12,6 +12,6 @@ SELECT
     {{ capitalize_first_letter("coalesce(municipality, 'ej specificerat')") }} AS municipality,
     {{ capitalize_first_letter("coalesce(region, 'ej specificerat')") }} AS region,
     {{ capitalize_first_letter("coalesce(postcode, 'ej specificerat')") }} AS postcode,
-    {{ capitalize_first_letter("coalesce(city, 'ej specificerat')") }} AS city,
+    {{ capitalize_first_letter("coalesce(workplace_city, 'ej specificerat')") }} AS workplace_city,
     {{ capitalize_first_letter("coalesce(country, 'ej specificerat')") }} AS country
 FROM src_employer
