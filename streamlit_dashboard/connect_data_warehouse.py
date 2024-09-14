@@ -20,6 +20,3 @@ def query_job_listings(query = 'SELECT * FROM mart_job_listings'):
     ) as connection:
         df = pd.read_sql(query, connection)
         return df
-    
-if __name__ == '__main__':
-    print(query_job_listings())
