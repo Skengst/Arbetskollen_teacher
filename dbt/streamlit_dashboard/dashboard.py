@@ -117,6 +117,30 @@ def layout():
     fig_top5 = px.bar(df_top5, x="employer_name", y="vacancies", title="Top 5 Employers by Vacancies", orientation='v')
     st.plotly_chart(fig_top5)
 
+    # Find advertisement
+    st.markdown("## Find advertisement")
+    cols = st.columns(2)
+    with cols[0]:
+        selected_company = st.selectbox(
+            "Select a company:", df["EMPLOYER_NAME"].unique()
+        )
+
+    with cols[1]:
+        selected_headline = st.selectbox(
+            "Select an advertisement:",
+            df.query("EMPLOYER_NAME == @selected_company")["HEADLINE"],
+        )
+
+    st.markdown("### Job ad")
+    job_description = df.query(
+        "HEADLINE == @selected_headline and EMPLOYER_NAME == @selected_company"
+    )["DESCRIPTION_FORMATTED"]
+    
+    if not job_description.empty:
+        st.markdown(job_description.values[0], unsafe_allow_html=True)
+    else:
+        st.write("No description available for the selected job ad.")
+
     # Full job listings data (optional collapsible section)
     with st.expander("See full job listings data"):
         st.dataframe(df)
