@@ -9,7 +9,7 @@ Table fct_job_ads {
   job_id INTEGER [primary key]
   job_details_key INTEGER [ref: >dim_job_details.job_details_key]
   employer_id INTEGER [ref: >dim_employer.employer_id]
-  auxilliary_attributes_id INTEGER [ref: >dim_auxilliary_attributes.auxilliary_attributes_id]
+  auxilliary_attributes_id INTEGER [ref: >dim_auxiliary_attributes.auxiliary_attributes_id]
   relevance FLOAT [not null]
   number_of_vacancies INTEGER [not null]
   publication_date DATETIME [not null]
@@ -59,9 +59,9 @@ Table dim_employer {
 }
 
 // junk dimension for cols with flags 
-Table dim_auxilliary_attributes {
-  auxilliary_attributes_id INTEGER [primary key]
+Table dim_auxiliary_attributes {
+  auxiliary_attributes_id INTEGER [primary key]
   experience_required BOOLEAN [not null]
-  driver_license_required BOOLEAN [not null]
+  driving_license_required BOOLEAN [not null]
   access_to_own_car BOOLEAN [not null]
 }

@@ -1,0 +1,172 @@
+version: 2
+
+models:
+  - name: dim_employer
+    description: "Dimension table for employers"
+    columns:
+      - name: employer_id
+        description: "Primary key and surrogate key created with id and employer_name"
+        tests:
+          - unique
+          - not_null
+      - name: employer_name
+        description: "Name of the employer"
+        tests:
+          - not_null      - name: workplace
+        description: "Workplace of the employer"
+        tests:
+          - not_null
+      - name: organization_number
+        description: "Organization number of the employer"
+        tests:
+          - not_null
+      - name: url
+        description: "URL of the employer"
+        tests:
+          - not_null
+      - name: street_address
+        description: "Street address of the employer"
+        tests:
+          - not_null
+      - name: municipality
+        description: "Municipality of the employer"
+        tests:
+          - not_null
+      - name: region
+        description: "Region of the employer"
+        tests:
+          - not_null
+      - name: postcode
+        description: "Postcode of the employer"
+        tests:
+          - not_null
+      - name: workplace_city
+        description: "City of the workplace"
+        tests:
+          - not_null
+      - name: country
+        description: "Country of the employer"
+        tests:
+          - not_null
+    
+  - name: dim_job_details
+    description: "Dimension table for job details"
+    columns:
+      - name: job_details_id
+        description: "Primary key and surrogate key created with id and headline"
+        tests:
+          - unique
+          - not_null
+      - name: occupation
+        description: "Occupation of the job"
+        tests:
+          - not_null
+      - name: headline
+        description: "Headline of the job"
+        tests:
+          - not_null
+      - name: description_formatted
+        description: "Formatted description of the job"
+        tests:
+          - not_null
+      - name: employment_type
+        description: "Type of employment"
+        tests:
+          - not_null
+      - name: duration
+        description: "Duration of the job"
+        tests:
+          - not_null
+      - name: working_hours_type
+        description: "Type of working hours"
+        tests:
+          - not_null
+      - name: salary_type
+        description: "Type of salary"
+        tests:
+          - not_null
+      - name: salary_description
+        description: "Description of the salary"
+        tests:
+          - not_null
+      - name: scope_of_work_min
+        description: "Minimum scope of work"
+        tests:
+          - not_null
+      - name: scope_of_work_max
+        description: "Maximum scope of work"
+        tests:
+          - not_null
+  
+  - name: dim_auxiliary
+    description: "Dimension table for auxilliary information"
+    columns:
+      - name: auxiliary_attributes_id
+        description: "Primary key and surrogate key created with id and experience_required"
+        tests:
+          - unique
+          - not_null
+      - name: experience_required
+        description: "Experience required for the job"
+        tests:
+          - not_null
+      - name: driving_license_required
+        description: "Whether a driving license is required or not"
+        tests:
+          - not_null
+      - name: car_required
+        description: "Whether a car is required or not for this job"
+        tests:
+          - not_null
+
+  - name: fct_job_ads
+    description: "Fact table for job ads"
+    columns:
+      - name: job_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: job_details_key
+        description: "Foreign key to dim_job_details"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: dim_job_details
+              field: job_details_id
+
+      - name: employer_key
+        description: "Foreign key to dim_employer"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: dim_employer
+              field: employer_id
+
+      - name: auxiliary_attributes_key
+        description: "Foreign key to dim_auxiliary"
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: dim_auxiliary
+              field: auxiliary_attributes_id
+
+      - name: relevance
+        description: "A procent value of how relevant the job ad is from what he searched for"
+        tests:
+          - not_null
+      - name: publication_date
+        description: "when the job ad was published"
+        tests:
+          - not_null
+      - name: last_publication_date
+        description: "when the job ad was last published"
+        tests:
+          - not_null
+      - name: application_deadline
+        description: "when the application deadline is, when the last day to apply is"
+        tests:
+          - not_null
