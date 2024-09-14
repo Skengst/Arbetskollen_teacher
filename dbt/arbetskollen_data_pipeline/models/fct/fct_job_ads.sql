@@ -16,7 +16,8 @@ SELECT
     coalesce(vacancies, 1) as vacancies,
     {{ format_date('publication_date') }} as publication_date,
     {{ format_date('last_publication_date') }} as last_publication_date,
-    {{ format_date('application_deadline') }} as application_deadline
+    {{ format_date('application_deadline') }} as application_deadline,
+    {{ extract_year('publication_date') }} as publication_year
 FROM 
     ja 
 LEFT JOIN 
