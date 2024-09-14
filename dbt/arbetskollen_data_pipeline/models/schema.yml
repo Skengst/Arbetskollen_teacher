@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: dim_employer
+    description: "Dimension table for employers"
+    columns:
+      - name: employer_id
+        description: "Unique identifier for employers"
+        tests:
+          - unique
+          - not_null
+      - name: employer_name
+        description: "Name of the employer"
+        tests:
+          - not_null

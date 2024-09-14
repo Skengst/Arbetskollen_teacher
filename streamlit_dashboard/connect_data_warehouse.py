@@ -4,8 +4,8 @@ from snowflake.connector import connect
 import pandas as pd
 
 
-
-def query_job_listings(query = 'SELECT * FROM mart_job_listnings'):
+def query_job_listings(query = 'SELECT * FROM mart_job_listings'):
+    
     load_dotenv()
 
     with connect(
