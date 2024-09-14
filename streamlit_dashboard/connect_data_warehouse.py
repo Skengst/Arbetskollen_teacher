@@ -4,8 +4,8 @@ from snowflake.connector import connect
 import pandas as pd
 
 
-
-def query_job_listings(query = 'SELECT * FROM mart_job_listnings'):
+def query_job_listings(query = 'SELECT * FROM mart_job_listings'):
+    
     load_dotenv()
 
     with connect(
@@ -20,3 +20,6 @@ def query_job_listings(query = 'SELECT * FROM mart_job_listnings'):
     ) as connection:
         df = pd.read_sql(query, connection)
         return df
+    
+if __name__ == '__main__':
+    print(query_job_listings())
