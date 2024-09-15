@@ -5,106 +5,72 @@ import altair as alt
 from connect_data_warehouse import query_job_listings
 from datetime import datetime, timedelta
 
-# Set page configuration to wide mode
 st.set_page_config(layout="wide")
 
 def layout():
-    df = query_job_listings()
-    df.fillna('Not Specified', inplace=True)  # Fyller 'none' med 'Not Specified'
-    
-    # Konvertera alla kolumnnamn till versaler för enhetlighet
+    df = query_job_listings("""
+        SELECT * FROM mart_job_listings
+    """)
+    df.fillna('Not Specified', inplace=True)
     df.columns = df.columns.str.upper()
 
-    st.title('Job Listings Dashboard')
-    st.write("Denna dashboard ger en översikt över information för lediga lärartjänster från Arbetsförmedlingens API.")
-
-    # KPI cards
     total_vacancies = df['VACANCIES'].sum()
     total_employers = df['EMPLOYER_NAME'].nunique()
     most_common_occupation = df['OCCUPATION'].mode()[0]
     
+    st.title('Job Listings Dashboard')
+    st.write("Denna dashboard ger en översikt över information för lediga lärartjänster från Arbetsförmedlingens API.")
+
     st.write("### KPI:er")
     col1, col2, col3 = st.columns(3)
-    
     col1.metric("Totala lediga platser", total_vacancies)
     col2.metric("Totalt antal arbetsgivare", total_employers)
     col3.metric("Vanligaste yrket", most_common_occupation)
 
-    # Lediga tjänster per yrke
-    cols = st.columns(2)
-    with cols[0]:
-        st.markdown("### Lediga tjänster per yrke")
-        st.dataframe(query_job_listings("""  
-            SELECT SUM(vacancies) AS total_vacancies, OCCUPATION
-            FROM mart_job_listings
-            GROUP BY OCCUPATION
-            ORDER BY total_vacancies DESC;
-        """))
+    st.markdown("### Lediga tjänster per yrke")
+    df_vacancies_per_occupation = df.groupby('OCCUPATION').agg(total_vacancies=('VACANCIES', 'sum')).reset_index()
+    df_vacancies_per_occupation = df_vacancies_per_occupation.sort_values(by='total_vacancies', ascending=False)
+    st.dataframe(df_vacancies_per_occupation)
 
-    # Vanligaste jobbannonserna (Pie chart)
     st.markdown("### Vanligaste jobbannonserna")
-    df_frequent_ads = query_job_listings("""  
-        SELECT HEADLINE, COUNT(*) AS headline_count
-        FROM mart_job_listings
-        GROUP BY HEADLINE
-        ORDER BY headline_count DESC
-        LIMIT 10;
-    """)
-    df_frequent_ads.columns = ['HEADLINE', 'headline_count']  # Explicitly rename columns to match
+    df_frequent_ads = df.groupby('HEADLINE').size().reset_index(name='headline_count')
+    df_frequent_ads = df_frequent_ads.sort_values(by='headline_count', ascending=False).head(10)
     fig_frequent_ads = px.pie(df_frequent_ads, names='HEADLINE', values='headline_count')
     st.plotly_chart(fig_frequent_ads)
 
-    # Employment Duration Distribution
-    with cols[1]:
-        st.markdown("### Fördelning av anställningens varaktighet")
-        df_duration = query_job_listings("""  
-            SELECT DURATION, COUNT(*) AS job_count
-            FROM mart_job_listings
-            GROUP BY DURATION;
-        """)
-        fig_duration = px.bar(df_duration, x="DURATION", y="JOB_COUNT")
-        st.plotly_chart(fig_duration)
+    st.markdown("### Fördelning av anställningens varaktighet")
+    df_duration = df.groupby('DURATION').size().reset_index(name='job_count')
+    fig_duration = px.bar(df_duration, x="DURATION", y="job_count")
+    st.plotly_chart(fig_duration)
 
-    # Filtrera för ansökningsdeadlines inom de kommande 2 månaderna
     today = datetime.now()
-    two_months_later = today + timedelta(days=60)  # Ungefär 2 månader
-
+    two_months_later = today + timedelta(days=60)
     df['APPLICATION_DEADLINE'] = pd.to_datetime(df['APPLICATION_DEADLINE'], errors='coerce')
     df_filtered_deadlines = df[
         (df['APPLICATION_DEADLINE'] >= today) & 
         (df['APPLICATION_DEADLINE'] <= two_months_later)
     ]
-
     st.markdown("### Lediga tjänster efter ansökningsdeadline (nästa 2 månader)")
     df_deadlines = df_filtered_deadlines.groupby('APPLICATION_DEADLINE').size().reset_index(name='job_count')
     fig_deadlines = px.line(df_deadlines, x="APPLICATION_DEADLINE", y="job_count")
     st.plotly_chart(fig_deadlines)
 
-    # Per company (top 5)
     st.markdown("### Topp 5 arbetsgivare efter lediga tjänster")
-    df_top5 = query_job_listings("""  
-        SELECT SUM(vacancies) AS vacancies, employer_name
-        FROM mart_job_listings
-        GROUP BY employer_name
-        ORDER BY vacancies DESC
-        LIMIT 5;
-    """)
-    df_top5.columns = ['vacancies', 'employer_name']  # Explicitly rename columns to match
-    fig_top5 = px.bar(df_top5, x="employer_name", y="vacancies", orientation='v')
+    df_top5 = df.groupby('EMPLOYER_NAME').agg(vacancies=('VACANCIES', 'sum')).reset_index()
+    df_top5 = df_top5.sort_values(by='vacancies', ascending=False).head(5)
+    fig_top5 = px.bar(df_top5, x="EMPLOYER_NAME", y="vacancies", orientation='v')
     st.plotly_chart(fig_top5)
 
-    # Find advertisement
     st.markdown("## Hitta annons")
     cols = st.columns(2)
     with cols[0]:
         selected_company = st.selectbox(
             "Välj ett företag:", df["EMPLOYER_NAME"].unique()
         )
-
     with cols[1]:
         selected_headline = st.selectbox(
             "Välj en annons:",
-            df.query("EMPLOYER_NAME == @selected_company")["HEADLINE"],
+            df[df["EMPLOYER_NAME"] == selected_company]["HEADLINE"].unique(),
         )
 
     st.markdown("### Jobbannons")
@@ -117,7 +83,6 @@ def layout():
     else:
         st.write("Ingen beskrivning tillgänglig för den valda annonsen.")
 
-    # Full job listings data (optional collapsible section)
     with st.expander("Se fullständiga jobbannonser"):
         st.dataframe(df)
 
