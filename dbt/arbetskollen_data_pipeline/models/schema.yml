@@ -2,171 +2,297 @@ version: 2
 
 models:
   - name: dim_employer
-    description: "Dimension table for employers"
+    description: "Dimension table storing detailed information about employers."
     columns:
       - name: employer_id
-        description: "Primary key and surrogate key created with id and employer_name"
+        description: "Primary key and surrogate key uniquely identifying each employer, created from id and employer_name."
+        data_type: INTEGER
         tests:
           - unique
           - not_null
       - name: employer_name
-        description: "Name of the employer"
+        description: "Name of the employer."
+        data_type: TEXT
         tests:
-          - not_null      - name: workplace
-        description: "Workplace of the employer"
+          - not_null
+      - name: workplace
+        description: "Name of the workplace."
+        data_type: TEXT
         tests:
           - not_null
       - name: organization_number
-        description: "Organization number of the employer"
+        description: "Unique organization number."
+        data_type: TEXT
         tests:
           - not_null
+          - unique
       - name: url
-        description: "URL of the employer"
+        description: "Employer's website URL."
+        data_type: TEXT
         tests:
           - not_null
       - name: street_address
-        description: "Street address of the employer"
+        description: "Street address of the employer."
+        data_type: TEXT
         tests:
           - not_null
       - name: municipality
-        description: "Municipality of the employer"
+        description: "Municipality where the employer is located."
+        data_type: TEXT
         tests:
           - not_null
       - name: region
-        description: "Region of the employer"
+        description: "Region where the workplace is."
+        data_type: TEXT
         tests:
           - not_null
       - name: postcode
-        description: "Postcode of the employer"
+        description: "Postal code of the address."
+        data_type: TEXT
         tests:
           - not_null
       - name: workplace_city
-        description: "City of the workplace"
+        description: "City where the workplace is."
+        data_type: TEXT
         tests:
           - not_null
       - name: country
-        description: "Country of the employer"
+        description: "Country of the employer."
+        data_type: TEXT
         tests:
           - not_null
-    
+
   - name: dim_job_details
-    description: "Dimension table for job details"
+    description: "Dimension table with job posting details."
     columns:
       - name: job_details_id
-        description: "Primary key and surrogate key created with id and headline"
+        description: "Primary key and surrogate key uniquely identifying each job detail, created from id and headline."
+        data_type: INTEGER
         tests:
           - unique
           - not_null
       - name: occupation
-        description: "Occupation of the job"
+        description: "Job title or occupation."
+        data_type: TEXT
         tests:
           - not_null
       - name: headline
-        description: "Headline of the job"
+        description: "Job posting headline or title."
+        data_type: TEXT
         tests:
           - not_null
       - name: description_formatted
-        description: "Formatted description of the job"
+        description: "Formatted job description for better readability."
+        data_type: TEXT
         tests:
           - not_null
       - name: employment_type
-        description: "Type of employment"
+        description: "Type of employment (e.g., full-time, part-time)."
+        data_type: TEXT
         tests:
           - not_null
       - name: duration
-        description: "Duration of the job"
+        description: "Job contract duration (e.g., Permanent)."
+        data_type: TEXT
         tests:
           - not_null
       - name: working_hours_type
-        description: "Type of working hours"
+        description: "Type of working hours (e.g., flexible)."
+        data_type: TEXT
         tests:
           - not_null
       - name: salary_type
-        description: "Type of salary"
+        description: "Salary type (e.g., hourly)."
+        data_type: TEXT
         tests:
           - not_null
       - name: salary_description
-        description: "Description of the salary"
+        description: "Salary details."
+        data_type: TEXT
         tests:
           - not_null
       - name: scope_of_work_min
-        description: "Minimum scope of work"
+        description: "Minimum hours or scope of work."
+        data_type: INTEGER
         tests:
           - not_null
       - name: scope_of_work_max
-        description: "Maximum scope of work"
+        description: "Maximum hours or scope of work."
+        data_type: INTEGER
         tests:
           - not_null
-  
+
   - name: dim_auxiliary
-    description: "Dimension table for auxilliary information"
+    description: "Table with additional job attributes."
     columns:
       - name: auxiliary_attributes_id
-        description: "Primary key and surrogate key created with id and experience_required"
+        description: "Primary key and surrogate key uniquely identifying auxiliary attributes, created from id and experience_required."
+        data_type: INTEGER
         tests:
           - unique
           - not_null
       - name: experience_required
-        description: "Experience required for the job"
+        description: "Required experience level."
+        data_type: TEXT
         tests:
           - not_null
       - name: driving_license_required
-        description: "Whether a driving license is required or not"
+        description: "Indicates if a driving license is required for the job."
+        data_type: BOOLEAN
         tests:
           - not_null
       - name: car_required
-        description: "Whether a car is required or not for this job"
+        description: "Indicates if owning a car is required for the job."
+        data_type: BOOLEAN
         tests:
           - not_null
 
   - name: fct_job_ads
-    description: "Fact table for job ads"
+    description: "Fact table with job ad summaries."
     columns:
       - name: job_id
-        description: "Primary key"
+        description: "Primary key for job ads, uniquely identifying each ad."
+        data_type: INTEGER
         tests:
           - unique
           - not_null
       - name: job_details_key
-        description: "Foreign key to dim_job_details"
+        description: "Foreign key referencing dim_job_details for job details."
+        data_type: INTEGER
         tests:
           - not_null
           - unique
           - relationships:
               to: dim_job_details
               field: job_details_id
-
       - name: employer_key
-        description: "Foreign key to dim_employer"
+        description: "Foreign key referencing dim_employer for employer details."
+        data_type: INTEGER
         tests:
           - not_null
           - unique
           - relationships:
               to: dim_employer
               field: employer_id
-
       - name: auxiliary_attributes_key
-        description: "Foreign key to dim_auxiliary"
+        description: "Foreign key referencing dim_auxiliary for additional job attributes."
+        data_type: INTEGER
         tests:
           - not_null
           - unique
           - relationships:
               to: dim_auxiliary
               field: auxiliary_attributes_id
-
       - name: relevance
-        description: "A procent value of how relevant the job ad is from what he searched for"
+        description: "Relevance score for the job ad."
+        data_type: FLOAT
         tests:
           - not_null
       - name: publication_date
-        description: "when the job ad was published"
+        description: "Date the job ad was published."
+        data_type: DATE
         tests:
           - not_null
       - name: last_publication_date
-        description: "when the job ad was last published"
+        description: "Date the job ad was last updated."
+        data_type: DATE
         tests:
           - not_null
       - name: application_deadline
-        description: "when the application deadline is, when the last day to apply is"
+        description: "Deadline for applications."
+        data_type: DATE
         tests:
           - not_null
+
+  - name: mart_job_listings
+    description: "Summary table with job listings data."
+    columns:
+      - name: employer_id
+        description: "Unique identifier for the employer."
+        data_type: INTEGER
+        tests:
+          - not_null
+      - name: occupation
+        description: "Job title or occupation."
+        data_type: TEXT
+        tests:
+          - not_null
+      - name: headline
+        description: "Job ad headline."
+        data_type: TEXT
+        tests:
+          - not_null
+      - name: salary_description
+        description: "Salary description."
+        data_type: TEXT
+      - name: salary_type
+        description: "Type of salary."
+        data_type: TEXT
+      - name: duration
+        description: "Employment duration."
+        data_type: TEXT
+      - name: description
+        description: "Plain text job description."
+        data_type: TEXT
+      - name: description_formatted
+        description: "Formatted job description."
+        data_type: TEXT
+      - name: scope_of_work_min
+        description: "Minimum scope of work."
+        data_type: INTEGER
+      - name: scope_of_work_max
+        description: "Maximum scope of work."
+        data_type: INTEGER
+      - name: employer_name
+        description: "Employer's name."
+        data_type: TEXT
+        tests:
+          - not_null
+      - name: workplace
+        description: "Workplace name."
+        data_type: TEXT
+      - name: workplace_city
+        description: "City of the workplace."
+        data_type: TEXT
+      - name: relevance
+        description: "Relevance score of the job ad."
+        data_type: FLOAT
+        tests:
+          - not_null
+      - name: application_deadline
+        description: "Application deadline."
+        data_type: DATE
+        tests:
+          - not_null
+      - name: vacancies
+        description: "Number of vacancies."
+        data_type: INTEGER
+        tests:
+          - not_null
+
+macros:
+  - name: extract_year
+    description: "Extracts the year from a date."
+    arguments:
+      - name: column
+        description: "The date column from which the year will be extracted."
+
+  - name: format_date
+    description: "Formats a date to 'YYYY-MM-DD' string format."
+    arguments:
+      - name: column
+        description: "The date column to be formatted."
+
+  - name: generate_schema_name
+    description: "Generates a schema name from custom input or default."
+    arguments:
+      - name: custom_schema_name
+        description: "Custom schema name, used if provided; otherwise, the default schema is applied."
+      - name: node
+        description: "Current dbt node."
+
+  - name: capitalize_first_letter
+    description: "Capitalizes the first letter of a string."
+    arguments:
+      - name: column
+        description: "The column containing the string to be capitalized."
