@@ -8,60 +8,61 @@
 Table fct_job_ads {
   job_id INTEGER [primary key]
   job_details_key INTEGER [ref: >dim_job_details.job_details_key]
-  employer_id INTEGER [ref: >dim_employer.employer_id]
-  auxilliary_attributes_id INTEGER [ref: >dim_auxiliary_attributes.auxiliary_attributes_id]
+  employer_key INTEGER [ref: >dim_employer.employer_key]
+  auxiliary_attributes_key INTEGER [ref: >dim_auxiliary_attributes.auxiliary_attributes_key]
   relevance FLOAT [not null]
-  number_of_vacancies INTEGER [not null]
+  vacancies INTEGER [not null]
   publication_date DATETIME [not null]
   last_publication_date DATETIME [not null]
+  application_deadline DATETIME [not null]
   //Closing of job application
 }
 
 Table dim_job_details {
   job_details_key INTEGER [primary key]
-  occupation__label STRING [not null]
+  occupation STRING [not null]
   headline STRING [not null]
-  description_text STRING [not null]
-  description_text_formatted STRING [not null]
-  employment_type__label STRING [not null]
-  duration__label STRING [not null]
+  description STRING [not null]
+  description_formatted STRING [not null]
+  employment_type STRING [not null]
+  duration STRING [not null]
   //How long you will work at that place
-  working_hours_type__label STRING [not null]
+  working_hours_type STRING [not null]
   //Hours worked per day
-  salary_type__label STRING [not null]
-  salary_decscription STRING
+  salary_type STRING [not null]
+  salary_description STRING
   //Might remove
   //Meaning varies from job to job, Usually about how the salary is set, like hourly, monthly or by contract
-  scope_of_work__min NUMBER(3,0) [not null] 
-  scope_of_work__max NUMBER(3,0) [not null]
+  scope_of_work_min NUMBER(3,0) [not null] 
+  scope_of_work_max NUMBER(3,0) [not null]
   //Scope of work means how much might change during your work
   //Low min means you most likely will be given more work later
   //High min means all your work should be outlined you start working
 }
 
 Table dim_employer {
-  employer_id INTEGER [primary key]
-  employer__name STRING [not null]
-  employer__workplace STRING [not null]
-  employer__organization_number STRING [not null] 
+  employer_key INTEGER [primary key]
+  employer_name STRING [not null]
+  workplace STRING [not null]
+  organization_number STRING [not null] 
   // we know organization number is xxxxxx-xxxx
-  employer__url STRING
+  url STRING
   //Very few with a website
-  workplace_address__street_address STRING
+  street_address STRING
   //Majority of data does not have a street address attached
-  workplace_address__municipality STRING [not null]
-  workplace_address__region STRING [not null]
-  workplace_address__postcode STRING
+  municipality STRING [not null]
+  region STRING [not null]
+  postcode STRING
   //Majority of data does not have a postcode attached
-  workplace_address__city STRING
+  workplace_city STRING
   //Majority of data does not have a city attached
-  workplace_address__country STRING [not null]
+  country STRING [not null]
 }
 
 // junk dimension for cols with flags 
 Table dim_auxiliary_attributes {
-  auxiliary_attributes_id INTEGER [primary key]
+  auxiliary_attributes_key INTEGER [primary key]
   experience_required BOOLEAN [not null]
   driving_license_required BOOLEAN [not null]
-  access_to_own_car BOOLEAN [not null]
+  car_required BOOLEAN [not null]
 }
