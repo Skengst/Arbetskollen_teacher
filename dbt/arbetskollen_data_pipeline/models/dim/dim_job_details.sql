@@ -12,7 +12,7 @@ SELECT
     duration,
     working_hours_type,
     salary_type,
-    salary_description,
+    coalesce(salary_description, 'No salary description') as salary_description,
     scope_of_work_min,
     scope_of_work_max
 
