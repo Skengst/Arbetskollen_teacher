@@ -21,7 +21,7 @@ The aim of the project is to implement a modern data pipeline using various tech
   
 ## Dimensional Model 
 
-![dimensional model](assets/job_ads_dimension_model.png)
+![dimensional model](assets/dimension_model.png)
 
 This diagram represents the star schema for the job ad data model. It includes dimensions like `employer`, `job_details`, and `auxiliary` with a fact table for `job_ads`.
 
