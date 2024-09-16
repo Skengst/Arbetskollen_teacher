@@ -6,145 +6,177 @@ models:
     columns:
       - name: employer_id
         description: "Primary key and surrogate key uniquely identifying each employer, created from id and employer_name."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - unique
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: employer_name
         description: "Name of the employer."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: workplace
         description: "Name of the workplace."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: organization_number
         description: "Unique organization number."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
           - unique
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: url
         description: "Employer's website URL."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: street_address
         description: "Street address of the employer."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: municipality
         description: "Municipality where the employer is located."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: region
         description: "Region where the workplace is."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: postcode
         description: "Postal code of the address."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: workplace_city
         description: "City where the workplace is."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: country
         description: "Country of the employer."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
 
   - name: dim_job_details
     description: "Dimension table with job posting details."
     columns:
       - name: job_details_id
         description: "Primary key and surrogate key uniquely identifying each job detail, created from id and headline."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - unique
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: occupation
         description: "Job title or occupation."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: headline
         description: "Job posting headline or title."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: description_formatted
         description: "Formatted job description for better readability."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: employment_type
         description: "Type of employment (e.g., full-time, part-time)."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: duration
         description: "Job contract duration (e.g., Permanent)."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: working_hours_type
         description: "Type of working hours (e.g., flexible)."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: salary_type
         description: "Salary type (e.g., hourly)."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: VARCHAR
       - name: salary_description
         description: "Salary details."
-        data_type: TEXT
-        tests:
-          - not_null
+        data_type: VARCHAR
       - name: scope_of_work_min
         description: "Minimum hours or scope of work."
-        data_type: INTEGER
-        tests:
-          - not_null
+        data_type: NUMBER
       - name: scope_of_work_max
         description: "Maximum hours or scope of work."
-        data_type: INTEGER
-        tests:
-          - not_null
+        data_type: NUMBER
 
   - name: dim_auxiliary
     description: "Table with additional job attributes."
     columns:
       - name: auxiliary_attributes_id
         description: "Primary key and surrogate key uniquely identifying auxiliary attributes, created from id and experience_required."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - unique
           - not_null
       - name: experience_required
         description: "Required experience level."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: driving_license_required
         description: "Indicates if a driving license is required for the job."
         data_type: BOOLEAN
-        tests:
+        data_tests:
           - not_null
       - name: car_required
         description: "Indicates if owning a car is required for the job."
         data_type: BOOLEAN
-        tests:
+        data_tests:
           - not_null
 
   - name: fct_job_ads
@@ -152,14 +184,14 @@ models:
     columns:
       - name: job_id
         description: "Primary key for job ads, uniquely identifying each ad."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - unique
           - not_null
       - name: job_details_key
         description: "Foreign key referencing dim_job_details for job details."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
           - unique
           - relationships:
@@ -167,8 +199,8 @@ models:
               field: job_details_id
       - name: employer_key
         description: "Foreign key referencing dim_employer for employer details."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
           - unique
           - relationships:
@@ -176,8 +208,8 @@ models:
               field: employer_id
       - name: auxiliary_attributes_key
         description: "Foreign key referencing dim_auxiliary for additional job attributes."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
           - unique
           - relationships:
@@ -186,22 +218,35 @@ models:
       - name: relevance
         description: "Relevance score for the job ad."
         data_type: FLOAT
-        tests:
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
       - name: publication_date
         description: "Date the job ad was published."
-        data_type: DATE
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: last_publication_date
         description: "Date the job ad was last updated."
-        data_type: DATE
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: application_deadline
         description: "Deadline for applications."
-        data_type: DATE
-        tests:
+        data_type: VARCHAR
+        data_tests:
+          - not_null
+      - name: vacancies
+        description: "Number of vacancies."
+        data_type: NUMBER
+        data_tests:
+          - not_null
+      - name: publication_year
+        description: "Year the job ad was published."
+        data_type: NUMBER
+        data_tests:
           - not_null
 
   - name: mart_job_listings
@@ -209,65 +254,68 @@ models:
     columns:
       - name: employer_id
         description: "Unique identifier for the employer."
-        data_type: INTEGER
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: occupation
         description: "Job title or occupation."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: headline
         description: "Job ad headline."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: salary_description
         description: "Salary description."
-        data_type: TEXT
+        data_type: VARCHAR
       - name: salary_type
         description: "Type of salary."
-        data_type: TEXT
+        data_type: VARCHAR
       - name: duration
         description: "Employment duration."
-        data_type: TEXT
+        data_type: VARCHAR
       - name: description
-        description: "Plain text job description."
-        data_type: TEXT
+        description: "Plain VARCHAR job description."
+        data_type: VARCHAR
       - name: description_formatted
         description: "Formatted job description."
-        data_type: TEXT
+        data_type: VARCHAR
       - name: scope_of_work_min
         description: "Minimum scope of work."
-        data_type: INTEGER
+        data_type: NUMBER
       - name: scope_of_work_max
         description: "Maximum scope of work."
-        data_type: INTEGER
+        data_type: NUMBER
       - name: employer_name
         description: "Employer's name."
-        data_type: TEXT
-        tests:
+        data_type: VARCHAR
+        data_tests:
           - not_null
       - name: workplace
         description: "Workplace name."
-        data_type: TEXT
+        data_type: VARCHAR
       - name: workplace_city
         description: "City of the workplace."
-        data_type: TEXT
+        data_type: VARCHAR
       - name: relevance
         description: "Relevance score of the job ad."
         data_type: FLOAT
-        tests:
+        data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
       - name: application_deadline
         description: "Application deadline."
         data_type: DATE
-        tests:
+        data_tests:
           - not_null
       - name: vacancies
         description: "Number of vacancies."
-        data_type: INTEGER
-        tests:
+        data_type: NUMBER
+        data_tests:
           - not_null
 
 macros:
