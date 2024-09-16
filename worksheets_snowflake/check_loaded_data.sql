@@ -26,3 +26,11 @@ FROM dim_employer
 GROUP BY employer_id, employer_name
 HAVING COUNT(*) > 1
 ORDER BY EMPLOYER_NAME;
+
+SELECT * 
+FROM dim_employer
+WHERE employer_name = 'Academedia support ab';
+
+SELECT * 
+FROM dim_employer
+WHERE employer_name = 'Alingsås kommun';
