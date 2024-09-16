@@ -31,30 +31,39 @@ git clone https://github.com/Skengst/Arbetskollen_teacher.git
 pip install -r requirements.txt
 ```
 
-3. Set up connections to Snowflake and dbt by configuring profiles.yml and secrets.toml.
+3. Set up connections to Snowflake,dlt and dbt by configuring profiles.yml and secrets.toml.
 
 ## Usage
 Run the data extraction from Jobtech API and load it into Snowflake:
 ```bash
-python data_pipeline/load_data.py
+python dlt/arbetskollen_stagin.py
+```
+Go into the dbt folder: cd dbt/arbetskollen_data_pipeline
+```bash
+cd dbt/arbetskollen_data_pipeline
 ```
 ```bash
-Run the dbt models:
+dbt deps
 ```
 ```bash
 dbt run
 ```
+You can then try the tests:
+```bash
+dbt tests
+```
+You can then look into the documentation:
+```bash
+dbt docs generate
+```
+```bash
+dbt docs serve
+```
+
 Start the dashboard using Streamlit:
 ```bash
-streamlit run dashboard/app.py
+python streamlit_dashboard/run_dashboard.py
 ```
 
 ## Agile Workflow
 This project follows a Kanban methodology using GitHub Projects. Tasks are managed in smaller iterations, and we use pull requests to review and merge code.
-
-## Contributing
-Create a new branch for your feature:
-```bash
-git checkout -b feature/new-feature
-```
-Make frequent commits and create a pull request when you're done.
