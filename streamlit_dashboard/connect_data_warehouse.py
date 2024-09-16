@@ -1,11 +1,12 @@
+#%%
 import os
 from dotenv import load_dotenv
 from snowflake.connector import connect
 import pandas as pd
 
 
+#%%
 def query_job_listings(query = 'SELECT * FROM mart_job_listings'):
-    
     load_dotenv()
 
     with connect(
@@ -20,3 +21,11 @@ def query_job_listings(query = 'SELECT * FROM mart_job_listings'):
     ) as connection:
         df = pd.read_sql(query, connection)
         return df
+    
+
+#%%
+print(query_job_listings())    
+    
+
+
+# %%

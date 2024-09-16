@@ -18,6 +18,8 @@ GRANT ROLE job_ads_reporter_role TO USER samuel;
 GRANT ROLE job_ads_reporter_role TO USER dimitris;
 GRANT ROLE job_ads_reporter_role TO USER jacob;
 
+
+
 USE ROLE job_ads_reporter_role;
 
 SHOW GRANTS TO ROLE job_ads_reporter_role;

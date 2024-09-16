@@ -6,7 +6,8 @@ from connect_data_warehouse import query_job_listings
 st.set_page_config(layout="wide")
 
 def layout():
-    st.title('Job Listings Dashboard')
+    st.set_page_config(layout="wide")
+    st.subheader('Job Listings Dashboard')
 
     # Hämta data
     df = query_job_listings()
@@ -44,11 +45,11 @@ def layout():
     df['APPLICATION_DEADLINE'] = pd.to_datetime(df['APPLICATION_DEADLINE'], errors='coerce')
     relevance_over_time = df.groupby('APPLICATION_DEADLINE')['RELEVANCE'].mean().reset_index()
 
-    line_chart = alt.Chart(relevance_over_time).mark_line().encode(
-        x='APPLICATION_DEADLINE:T',  # Time data
-        y='RELEVANCE:Q'  # Quantitative data
-    ).properties(width=600)
-    st.altair_chart(line_chart)
+        line_chart = alt.Chart(relevance_over_time).mark_line().encode(
+            x='APPLICATION_DEADLINE:T',  # Time data
+            y='RELEVANCE:Q'  # Quantitative data
+        ).properties(width=600)
+        st.altair_chart(line_chart)
 
     # Text om de mest frekventa yrkena
     st.write("### Mest förekommande yrken")
