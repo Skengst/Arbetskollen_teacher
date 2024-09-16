@@ -21,12 +21,10 @@ The aim of the project is to implement a modern data pipeline using various tech
   
 ## Dimensional Model 
 
-![dimensional model](assets/dimension_model.png)
-
-![Assignment](assets/projectpm.pdf)
+![dimensional model](assets/dimensional_model.png)
 
 ## What is dbt?
-[What is dbt?](what_is_dbt.md)
+[What is dbt?](docs/whatisdbt.md)
 
 This diagram represents the star schema for the job ad data model. It includes dimensions like `employer`, `job_details`, and `auxiliary` with a fact table for `job_ads`.
 
