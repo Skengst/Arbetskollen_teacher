@@ -110,11 +110,5 @@ def layout():
     ).properties(title="Antal Jobb per Stad")
     st.altair_chart(city_chart, use_container_width=True)
 
-
-
-    # Tabell med detaljerad data
-    st.write("### Detaljerad Jobbdata")
-    st.dataframe(df)
-
 if __name__ == "__main__":
     layout()
