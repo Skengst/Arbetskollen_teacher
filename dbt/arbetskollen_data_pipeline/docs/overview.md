@@ -22,11 +22,10 @@ Målet med projektet är att implementera en modern datapipeline med olika tekno
 ## Dimensionell Modell
 
 ![dimensionell modell](assets/dimensional_model.png)
+Denna diagram representerar stjärnschemat för jobbannonsens datamodell. Det inkluderar dimensioner som `employer`, `job_details` och `auxiliary` med en faktatabell för `job_ads`.
 
 ## What is dbt?
 [What is dbt? Documentation](https://github.com/DanielSjoholm/What_is_dbt_documentation/blob/main/README.md)
-
-Denna diagram representerar stjärnschemat för jobbannonsens datamodell. Det inkluderar dimensioner som `employer`, `job_details` och `auxiliary` med en faktatabell för `job_ads`.
 
 ## Agile Metodologi
 
