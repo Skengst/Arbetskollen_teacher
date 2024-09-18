@@ -61,6 +61,8 @@ dbt docs serve
 ```
 
 Start the dashboard using Streamlit:
+You have to set up youre .env file.
+then run:
 ```bash
 python streamlit_dashboard/run_dashboard.py
 ```
